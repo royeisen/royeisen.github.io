@@ -1,0 +1,198 @@
+// Main JavaScript for the static site
+document.addEventListener('DOMContentLoaded', function() {
+    // Update current year in footer
+    updateCurrentYear();
+    
+    // Update last modified date
+    updateLastModified();
+    
+    // Initialize smooth scrolling for anchor links
+    initSmoothScrolling();
+    
+    // Initialize responsive navigation
+    initResponsiveNav();
+});
+
+// Update the current year in the footer
+function updateCurrentYear() {
+    const currentYearElement = document.getElementById('current-year');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+}
+
+// Update the last modified date
+function updateLastModified() {
+    const lastUpdatedElement = document.getElementById('last-updated');
+    if (lastUpdatedElement) {
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long' };
+        lastUpdatedElement.textContent = now.toLocaleDateString('en-US', options);
+    }
+}
+
+// Initialize smooth scrolling for anchor links
+function initSmoothScrolling() {
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            
+            // Skip if it's just "#"
+            if (href === '#') return;
+            
+            const targetElement = document.querySelector(href);
+            if (targetElement) {
+                e.preventDefault();
+                
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Update URL without jumping
+                if (history.pushState) {
+                    history.pushState(null, null, href);
+                }
+            }
+        });
+    });
+}
+
+// Initialize responsive navigation
+function initResponsiveNav() {
+    // Add mobile menu toggle if needed
+    const nav = document.querySelector('.greedy-nav');
+    const navItems = document.querySelector('.visible-links');
+    
+    if (nav && navItems && window.innerWidth <= 768) {
+        // Create mobile menu button
+        const mobileMenuBtn = document.createElement('button');
+        mobileMenuBtn.className = 'mobile-menu-btn';
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        mobileMenuBtn.setAttribute('aria-label', 'Toggle navigation menu');
+        
+        // Insert button into nav
+        nav.appendChild(mobileMenuBtn);
+        
+        // Toggle menu on button click
+        mobileMenuBtn.addEventListener('click', function() {
+            navItems.classList.toggle('mobile-menu-open');
+            const isOpen = navItems.classList.contains('mobile-menu-open');
+            mobileMenuBtn.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!nav.contains(e.target)) {
+                navItems.classList.remove('mobile-menu-open');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+        
+        // Close menu when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                navItems.classList.remove('mobile-menu-open');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+    }
+}
+
+// Utility function to load JSON data
+async function loadJSON(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error loading JSON:', error);
+        return null;
+    }
+}
+
+// Format date for display
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
+
+// Debounce function for performance
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Add scroll-based navigation highlighting
+function initScrollNavigation() {
+    const sections = document.querySelectorAll('section[id], h3[id]');
+    const navLinks = document.querySelectorAll('.masthead__menu-item a[href^="#"]');
+    
+    if (sections.length === 0 || navLinks.length === 0) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                
+                // Remove active class from all nav links
+                navLinks.forEach(link => link.classList.remove('active'));
+                
+                // Add active class to current section's nav link
+                const activeLink = document.querySelector(`.masthead__menu-item a[href="#${id}"]`);
+                if (activeLink) {
+                    activeLink.classList.add('active');
+                }
+            }
+        });
+    }, {
+        rootMargin: '-50% 0px -50% 0px'
+    });
+    
+    sections.forEach(section => observer.observe(section));
+}
+
+// Initialize scroll navigation after DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initScrollNavigation, 100);
+});
+
+// Add fade-in animation for content
+function initFadeInAnimation() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    // Observe elements that should fade in
+    const fadeElements = document.querySelectorAll('.about-section, .highlights-section, .archive__item');
+    fadeElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+}
+
+// Initialize animations after a short delay
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initFadeInAnimation, 500);
+});
