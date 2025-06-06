@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overclocking LLM Reasoning</title>
+    <meta name="description" content="Overclocking LLM Reasoning: Monitoring and Controlling Thinking Path Lengths in LLMs by Roy Eisenstadt, Itamar Zimerman, Lior Wolf">
+    <meta name="author" content="Roy Eisenstadt">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <div class="page__hero--overlay">
+        <div class="wrapper">
+            <h1 class="page__title">Overclocking LLM Reasoning: Monitoring and Controlling Thinking Path Lengths in LLMs</h1>
+            <p class="page__lead">Roy Eisenstadt, Itamar Zimerman, Lior Wolf</p>
+            <p class="page__hero-actions">
+                <a href="#paper" class="btn btn--primary btn--large">View Paper</a>
+                <a href="#code" class="btn btn--inverse btn--large">GitHub Code</a>
+                
+            </p>
+            <div class="video-item">
+                <div class="video-placeholder">
+                    <i class="fas fa-play-circle"></i>
+                    <p>Video Placeholder 1</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Abstract Section -->
+    <section class="abstract-section">
+        <div class="wrapper">
+            <h2>Abstract</h2>
+            <p>Recently, techniques such as explicit structured reasoning have demonstrated strong test-time scaling behavior by enforcing a separation between the model's internal "thinking" process and the final response. A key factor influencing answer quality in this setting is the length of the thinking stage. When the reasoning is too short, the model may fail to capture the complexity of the task. Conversely, when it is too long, the model may overthink, leading to unnecessary computation and degraded performance. This paper explores and exploits the underlying mechanisms by which LLMs understand and regulate the length of their reasoning during explicit thought processes. First, we show that LLMs encode their progress through the reasoning process and introduce an interactive progress bar visualization, which is then used to reveal insights on the model's planning dynamics. Second, we manipulate the internal progress encoding during inference to reduce unnecessary steps and generate a more concise and decisive chain of thoughts. Our empirical results demonstrate that this ``overclocking'' method mitigates overthinking, improves answer accuracy, and reduces inference latency.</p>
+        </div>
+    </section>
+
+    <!-- Reasoning Loading Bar Section -->
+    <section class="video-grid-section">
+        <div class="wrapper">
+            <h2>Reasoning Loading Bar</h2>
+            
+            <input type="radio" name="loading-bar-dots" id="loading-dot-1" checked>
+            <input type="radio" name="loading-bar-dots" id="loading-dot-2">
+            <input type="radio" name="loading-bar-dots" id="loading-dot-3">
+            
+            <div class="dot-indicators">
+                <label for="loading-dot-1" class="dot-indicator"></label>
+                <label for="loading-dot-2" class="dot-indicator"></label>
+                <label for="loading-dot-3" class="dot-indicator"></label>
+            </div>
+            
+            <div class="video-grid">
+                <div class="video-item">
+                    <video controls loop muted>
+                        <source src="../assets/videos/loading_bar_1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-description">
+                        <p><em>Solve 3(x-2)+4=2(x+1)+x</em></p>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Reasoning Loading Bar - Video 2</p>
+                    </div>
+                    <div class="video-description">
+                        <p><em>Description for reasoning loading bar video 2</em></p>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Reasoning Loading Bar - Video 3</p>
+                    </div>
+                    <div class="video-description">
+                        <p><em>Description for reasoning loading bar video 3</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overclocking LLMs Section -->
+    <section class="video-grid-section">
+        <div class="wrapper">
+            <h2>Overclocking LLMs</h2>
+            
+            <input type="radio" name="overclocking-dots" id="overclocking-dot-1" checked>
+            <input type="radio" name="overclocking-dots" id="overclocking-dot-2">
+            <input type="radio" name="overclocking-dots" id="overclocking-dot-3">
+            
+            <div class="dot-indicators">
+                <label for="overclocking-dot-1" class="dot-indicator"></label>
+                <label for="overclocking-dot-2" class="dot-indicator"></label>
+                <label for="overclocking-dot-3" class="dot-indicator"></label>
+            </div>
+            
+            <div class="video-grid">
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Overclocking LLMs - Video 1</p>
+                    </div>
+                    <div class="video-description">
+                        <p><em>Description for overclocking LLMs video 1</em></p>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle"></i>
+                        <p>Overclocking LLMs - Video 2</p>
+                    </div>
+                    <div class="video-description">
+                        <p><em>Description for overclocking LLMs video 2</em></p>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <video controls loop muted>
+                        <source src="../assets/videos/Overclocking_3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-description">
+                        <p><em>Solve the system of eqautions: X + Y = 12, 3X - Y = 15</em></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Method Section -->
+    <section class="method-section">
+        <div class="wrapper">
+            <h2>Method</h2>
+            <div class="method-content">
+                <div class="archive__item">
+                    <div class="archive__item-body">
+                        <h3>Overview</h3>
+                        <p>Recently, techniques such as explicit structured reasoning have demonstrated strong test-time scaling behavior by enforcing a separation between the model's internal "thinking" process and the final response. A key factor influencing answer quality in this setting is the length of the thinking stage. When the reasoning is too short, the model may fail to capture the complexity of the task. Conversely, when it is too long, the model may overthink, leading to unnecessary computation and degraded performance.</p>
+                        
+                        <h3>Key Contributions</h3>
+                        <p>This paper explores and exploits the underlying mechanisms by which LLMs understand and regulate the length of their reasoning during explicit thought processes. First, we show that LLMs encode their progress through the reasoning process and introduce an interactive progress bar visualization, which is then used to reveal insights on the model's planning dynamics. Second, we manipulate the internal progress encoding during inference to reduce unnecessary steps and generate a more concise and decisive chain of thoughts.</p>
+                        
+                        <h3>Results</h3>
+                        <p>Our empirical results demonstrate that this "overclocking" method mitigates overthinking, improves answer accuracy, and reduces inference latency.</p>
+                        
+                        <div class="figure-placeholder">
+                            <div class="figure-container">
+                                <i class="fas fa-image"></i>
+                                <p>Figure placeholder - Method diagram</p>
+                            </div>
+                        </div>
+                        
+                        <div class="figure-placeholder">
+                            <div class="figure-container">
+                                <i class="fas fa-chart-line"></i>
+                                <p>Figure placeholder - Results visualization</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Citation -->
+            <div class="citation-container">
+                <h3>Citation</h3>
+                <details class="citation-details">
+                    <summary>BibTeX Citation</summary>
+                    <pre class="citation-text">
+@article{eisenstadt2024overclocking,
+    title={Overclocking LLM Reasoning: Monitoring and Controlling Thinking Path Lengths in LLMs},
+    author={Eisenstadt, Roy and Zimerman, Itamar and Wolf, Lior},
+    journal={[Please update with journal/conference]},
+    year={2024},
+    note={[Please update with additional details]}
+}
+                    </pre>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <div class="wrapper">
+        <p class="text-center">
+            <em>For questions about this work, please <a href="mailto:royeisen@gmail.com">contact the authors</a>.</em>
+        </p>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>
