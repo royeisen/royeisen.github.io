@@ -66,24 +66,66 @@ function initFadeInAnimation() {
 function initVideoFunctionality() {
     const videos = document.querySelectorAll('video[data-video-id]');
     const radioInputs = document.querySelectorAll('input[type="radio"]');
+    const playPauseButtons = document.querySelectorAll('.video-play-pause-btn');
+    
+    // Track manually controlled videos to prevent auto-restart conflicts
+    const manuallyControlledVideos = new Set();
     
     // Setup video ended event listeners for 2-second pause loop
     videos.forEach(video => {
         video.addEventListener('ended', function() {
+            updatePlayPauseButton(video, false);
+            
             setTimeout(() => {
-                if (isVideoVisible(video)) {
+                if (isVideoVisible(video) && !manuallyControlledVideos.has(video)) {
                     video.currentTime = 0;
-                    video.play();
+                    video.play().catch(e => {
+                        console.log('Autoplay prevented:', e);
+                    });
                 }
             }, 2000);
         });
         
+        // Update button state when video plays/pauses
+        video.addEventListener('play', function() {
+            updatePlayPauseButton(video, true);
+        });
+        
+        video.addEventListener('pause', function() {
+            updatePlayPauseButton(video, false);
+        });
+        
         // Ensure video can autoplay when visible
         video.addEventListener('canplaythrough', function() {
-            if (isVideoVisible(video)) {
+            if (isVideoVisible(video) && !manuallyControlledVideos.has(video)) {
                 video.play().catch(e => {
                     console.log('Autoplay prevented:', e);
                 });
+            }
+        });
+        
+        // Keyboard support for focused videos
+        video.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                toggleVideoPlayback(video);
+            }
+        });
+    });
+    
+    // Setup play/pause button functionality
+    playPauseButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const video = this.closest('.video-container-with-controls').querySelector('video');
+            if (video) {
+                toggleVideoPlayback(video);
+                // Mark as manually controlled temporarily
+                manuallyControlledVideos.add(video);
+                // Remove manual control flag after 5 seconds of inactivity
+                setTimeout(() => {
+                    manuallyControlledVideos.delete(video);
+                }, 5000);
             }
         });
     });
@@ -92,6 +134,9 @@ function initVideoFunctionality() {
     radioInputs.forEach(radio => {
         radio.addEventListener('change', function() {
             if (this.checked) {
+                // Clear manual control flags when switching videos
+                manuallyControlledVideos.clear();
+                
                 setTimeout(() => {
                     const activeVideoItem = getActiveVideoItem(this);
                     if (activeVideoItem) {
@@ -114,6 +159,8 @@ function initVideoFunctionality() {
             if (entry.isIntersecting) {
                 const video = entry.target.querySelector('video');
                 if (video && isVideoVisible(video)) {
+                    // Clear manual control when video comes into view
+                    manuallyControlledVideos.delete(video);
                     video.currentTime = 0;
                     video.play().catch(e => {
                         console.log('Autoplay prevented:', e);
@@ -160,6 +207,36 @@ function getActiveVideoItem(radio) {
     
     const videoItems = videoGrid.querySelectorAll('.video-item');
     return videoItems[index] || null;
+}
+
+// Toggle video playback (play/pause)
+function toggleVideoPlayback(video) {
+    if (video.paused) {
+        video.play().catch(e => {
+            console.log('Play prevented:', e);
+        });
+    } else {
+        video.pause();
+    }
+}
+
+// Update play/pause button icon and state
+function updatePlayPauseButton(video, isPlaying) {
+    const container = video.closest('.video-container-with-controls');
+    if (!container) return;
+    
+    const button = container.querySelector('.video-play-pause-btn');
+    const icon = button.querySelector('i');
+    
+    if (isPlaying) {
+        icon.className = 'fas fa-pause';
+        button.classList.add('playing');
+        button.setAttribute('aria-label', 'Pause video');
+    } else {
+        icon.className = 'fas fa-play';
+        button.classList.remove('playing');
+        button.setAttribute('aria-label', 'Play video');
+    }
 }
 
 // Debounce function for performance

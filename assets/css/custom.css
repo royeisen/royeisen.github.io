@@ -72,6 +72,13 @@
   color: #2c3e50;
 }
 
+/* Video Container with Controls */
+.video-container-with-controls {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
 /* Video element styling to match placeholder dimensions */
 .video-item video {
   width: 100%;
@@ -79,7 +86,7 @@
   border-radius: 8px;
   object-fit: contain;
   background-color: #000;
-  margin-bottom: 1em;
+  display: block;
 }
 
 /* Remove hover effects on videos */
@@ -87,6 +94,96 @@
   transform: none;
   box-shadow: none;
   cursor: default;
+}
+
+/* Video Controls Overlay */
+.video-controls-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.video-container-with-controls:hover .video-controls-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Play/Pause Button */
+.video-play-pause-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 24px;
+  color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.video-play-pause-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.video-play-pause-btn:focus {
+  outline: 3px solid #52adc8;
+  outline-offset: 2px;
+}
+
+.video-play-pause-btn i {
+  margin-left: 3px; /* Slight offset for play icon visual balance */
+}
+
+.video-play-pause-btn.playing i {
+  margin-left: 0; /* Reset margin for pause icon */
+}
+
+/* Mobile responsive adjustments for controls */
+@media (max-width: 768px) {
+  .video-play-pause-btn {
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+  }
+  
+  .video-controls-overlay {
+    /* Always show controls on mobile for touch interaction */
+    opacity: 0.8;
+    pointer-events: auto;
+  }
+  
+  .video-container-with-controls:hover .video-controls-overlay {
+    opacity: 1;
+  }
+}
+
+/* Touch devices - show controls more readily */
+@media (hover: none) and (pointer: coarse) {
+  .video-controls-overlay {
+    opacity: 0.6;
+    pointer-events: auto;
+  }
+  
+  .video-container-with-controls:hover .video-controls-overlay,
+  .video-container-with-controls:active .video-controls-overlay {
+    opacity: 1;
+  }
 }
 
 /* Citation Styles */
