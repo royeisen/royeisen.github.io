@@ -1,5 +1,51 @@
 /* Custom styles for the research paper page */
 
+/* Authors Section Styles */
+.authors-section {
+  margin: 2em 0;
+  text-align: center;
+}
+
+.authors-section .author {
+  display: inline-block;
+  margin: 1em 2em;
+  vertical-align: top;
+  text-align: center;
+  min-width: 200px;
+}
+
+.author-name {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+.author-affiliation {
+  font-size: 1em;
+  color: #495057;
+  margin-bottom: 0.3em;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.author-email {
+  font-size: 0.85em;
+  margin-top: 0.3em;
+}
+
+.author-email a {
+  color: #6c757d;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.author-email a:hover {
+  color: #52adc8;
+  text-decoration: underline;
+}
+
 /* Hero Teaser Image Styles */
 .hero-teaser {
     text-align: center;
@@ -425,6 +471,25 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .authors-section .author {
+    display: block;
+    margin: 1.5em auto;
+    min-width: auto;
+    max-width: 280px;
+  }
+  
+  .author-name {
+    font-size: 1.1em;
+  }
+  
+  .author-affiliation {
+    font-size: 0.95em;
+  }
+  
+  .author-email {
+    font-size: 0.8em;
+  }
+  
   .teaser-image {
     max-height: 300px;
   }

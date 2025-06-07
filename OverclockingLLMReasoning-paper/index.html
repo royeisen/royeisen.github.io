@@ -41,21 +41,45 @@
     <div class="page__hero--overlay">
         <div class="wrapper">
             <h1 class="page__title">Overclocking LLM Reasoning: Monitoring and Controlling Thinking Path Lengths in LLMs</h1>
-            <p class="page__lead">Roy Eisenstadt, Itamar Zimerman, Lior Wolf</p>
+            
+            <div class="authors-section">
+                <div class="author">
+                    <div class="author-name">Roy Eisenstadt</div>
+                    <div class="author-affiliation">Tel-Aviv University</div>
+                    <div class="author-email"><a href="mailto:royeisen@gmail.com">royeisen@gmail.com</a></div>
+                </div>
+                <div class="author">
+                    <div class="author-name">Itamar Zimerman</div>
+                    <div class="author-affiliation">Tel-Aviv University, IBM Research</div>
+                    <div class="author-email"><a href="mailto:zimerman1@mail.tau.ac.il">zimerman1@mail.tau.ac.il</a></div>
+                </div>
+                <div class="author">
+                    <div class="author-name">Lior Wolf</div>
+                    <div class="author-affiliation">Tel-Aviv University</div>
+                    <div class="author-email"><a href="mailto:wolf@cs.tau.ac.il">wolf@cs.tau.ac.il</a></div>
+                </div>
+            </div>
+            
             <p class="page__hero-actions">
                 <a href="#paper" class="btn btn--primary btn--large">View Paper</a>
                 <a href="#code" class="btn btn--inverse btn--large">GitHub Code</a>
                 
             </p>
 
+            <div class="hero-teaser">
+                <img src="../assets/figures/teaser.jpg" alt="Monitoring and Overclocking Reasoning Progress" class="teaser-image">
+            </div>
+
         </div>
     </div>
 
     <!-- Abstract Section -->
     <section class="abstract-section">
+        
         <div class="wrapper">
+            
             <h2>Abstract</h2>
-            <p>Recently, techniques such as explicit structured reasoning have demonstrated strong test-time scaling behavior by enforcing a separation between the model's internal "thinking" process and the final response. A key factor influencing answer quality in this setting is the length of the thinking stage. When the reasoning is too short, the model may fail to capture the complexity of the task. Conversely, when it is too long, the model may overthink, leading to unnecessary computation and degraded performance. This paper explores and exploits the underlying mechanisms by which LLMs understand and regulate the length of their reasoning during explicit thought processes. First, we show that LLMs encode their progress through the reasoning process and introduce an interactive progress bar visualization, which is then used to reveal insights on the model's planning dynamics. Second, we manipulate the internal progress encoding during inference to reduce unnecessary steps and generate a more concise and decisive chain of thoughts. Our empirical results demonstrate that this ``overclocking'' method mitigates overthinking, improves answer accuracy, and reduces inference latency.</p>
+            <p>Recently, techniques such as explicit structured reasoning have demonstrated strong test-time scaling behavior by enforcing a separation between the model's internal "thinking" process and the final response. A key factor influencing answer quality in this setting is the length of the thinking stage. When the reasoning is too short, the model may fail to capture the complexity of the task. Conversely, when it is too long, the model may overthink, leading to unnecessary computation and degraded performance. This paper explores and exploits the underlying mechanisms by which LLMs understand and regulate the length of their reasoning during explicit thought processes. First, we show that LLMs encode their progress through the reasoning process and introduce an interactive progress bar visualization, which is then used to reveal insights on the model's planning dynamics. Second, we manipulate the internal progress encoding during inference to reduce unnecessary steps and generate a more concise and decisive chain of thoughts. Our empirical results demonstrate that this "overclocking" method mitigates overthinking, improves answer accuracy, and reduces inference latency.</p>
         </div>
     </section>
 
@@ -258,67 +282,6 @@
                 </p>
             </div>
 
-    <section class="method-section">
-        <div class="wrapper">
-            <h2>Method</h2>
-            <div class="method-content">
-                <p>
-                    This work investigates how autoregressive reasoning models encode internal estimates of progress during structured deliberation, and whether such latent signals can be externally monitored or manipulated. We focus on models that delineate the reasoning process via <code>&lt;think&gt;</code> and <code>&lt;/think&gt;</code> delimiters (e.g., DeepSeek-R1), allowing for precise segmentation of the latent "thinking phase."
-                </p>
-
-                <h3>1. Monitoring the Thinking Phase</h3>
-                <p>
-                    We hypothesize that during generation, the model dynamically encodes a token's relative progress through the thinking phase. Let $T^{(k)} = w_1^{(k)}w_2^{(k)}\ldots w_{N_k}^{(k)}$ denote the $k$-th reasoning trajectory, consisting of tokens between <code>&lt;think&gt;</code> and <code>&lt;/think&gt;</code>. For each token, we extract its final-layer hidden state $h_j^{(k)} \in \mathbb{R}^d$ and assign it a normalized position:
-                </p>
-                <p style="text-align:center;">
-                    $$p_j^{(k)} = \frac{j}{N_k} \in (0, 1]$$
-                </p>
-                <p>
-                    Constructing the dataset $D = \{ (h_j^{(k)}, p_j^{(k)}) \}_{k,j}$ enables supervised training of a progress regressor:
-                </p>
-                <p style="text-align:center;">
-                    $$\theta^* = \arg\min_\theta \sum_{(h, p) \in D} (f_\theta(h) - p)^2$$
-                </p>
-
-                <p>
-                    We compare a simple linear regressor (Thinking Progress Vector; TPV) with a 2-layer feedforward network (FFN). Empirical results indicate that the linear model suffices, yielding minimal test loss, thereby justifying our preference for the parsimonious TPV architecture.
-                </p>
-
-                <p>
-                    To exploit the temporal smoothness of token decoding, we also train a GRU-based predictor on sequence-labeled data:
-                </p>
-                <p style="text-align:center;">
-                    $$D' = \left\{ \left(h_1^{(k)}, \ldots, h_{N_k}^{(k)}\right), \left(p_1^{(k)}, \ldots, p_{N_k}^{(k)}\right) \right\}_{k=1}^K$$
-                </p>
-                <p>
-                    The GRU achieves superior generalization across datasets (Math500, GSM8K), particularly in the zero-shot regime, and produces smoother, monotonic progress curves.
-                </p>
-
-                <h3>2. Controlling the Thinking Phase</h3>
-                <p>
-                    To evaluate the causal role of TPV in model reasoning, we apply controlled interventions to the hidden state:
-                </p>
-                <p style="text-align:center;">
-                    $$h^\alpha = h + \alpha \theta \quad \Rightarrow \quad \theta^T h^\alpha = \theta^T h + \alpha \|\theta\|^2$$
-                </p>
-                <p>
-                    Interventions are applied downstream of attention layers to localize effects to single decoding steps. By modulating $\alpha$, we can accelerate or decelerate the model’s internal estimate of progress—a procedure we term <em>overclocking</em>.
-                </p>
-
-                <h4>Findings</h4>
-                <ul>
-                    <li>Unintervened outputs often exhibit hesitation and self-repetition.</li>
-                    <li>Intervention with $\alpha > 0$ (overclocking) induces faster convergence without compromising accuracy.</li>
-                    <li>Token efficiency improves dramatically, with overclocked completions using up to 6× fewer tokens than baseline generations.</li>
-                </ul>
-
-                <h4>Conclusion</h4>
-                <p>
-                    These results support the hypothesis that reasoning models encode progress internally via interpretable latent dimensions. Furthermore, these signals are not merely correlative but appear to be causally entangled with token generation, offering new affordances for real-time monitoring and adaptive control of model cognition.
-                </p>
-            </div>
-        </div>
-    </section>
             
             <!-- Citation -->
             <div class="citation-container">
