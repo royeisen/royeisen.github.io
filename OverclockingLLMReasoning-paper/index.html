@@ -257,6 +257,68 @@
                     These findings suggest that models internally track thinking progress and that this representation can be extracted and modified, opening doors for dynamic reasoning control and real-time interpretability.
                 </p>
             </div>
+
+    <section class="method-section">
+        <div class="wrapper">
+            <h2>Method</h2>
+            <div class="method-content">
+                <p>
+                    This work investigates how autoregressive reasoning models encode internal estimates of progress during structured deliberation, and whether such latent signals can be externally monitored or manipulated. We focus on models that delineate the reasoning process via <code>&lt;think&gt;</code> and <code>&lt;/think&gt;</code> delimiters (e.g., DeepSeek-R1), allowing for precise segmentation of the latent "thinking phase."
+                </p>
+
+                <h3>1. Monitoring the Thinking Phase</h3>
+                <p>
+                    We hypothesize that during generation, the model dynamically encodes a token's relative progress through the thinking phase. Let $T^{(k)} = w_1^{(k)}w_2^{(k)}\ldots w_{N_k}^{(k)}$ denote the $k$-th reasoning trajectory, consisting of tokens between <code>&lt;think&gt;</code> and <code>&lt;/think&gt;</code>. For each token, we extract its final-layer hidden state $h_j^{(k)} \in \mathbb{R}^d$ and assign it a normalized position:
+                </p>
+                <p style="text-align:center;">
+                    $$p_j^{(k)} = \frac{j}{N_k} \in (0, 1]$$
+                </p>
+                <p>
+                    Constructing the dataset $D = \{ (h_j^{(k)}, p_j^{(k)}) \}_{k,j}$ enables supervised training of a progress regressor:
+                </p>
+                <p style="text-align:center;">
+                    $$\theta^* = \arg\min_\theta \sum_{(h, p) \in D} (f_\theta(h) - p)^2$$
+                </p>
+
+                <p>
+                    We compare a simple linear regressor (Thinking Progress Vector; TPV) with a 2-layer feedforward network (FFN). Empirical results indicate that the linear model suffices, yielding minimal test loss, thereby justifying our preference for the parsimonious TPV architecture.
+                </p>
+
+                <p>
+                    To exploit the temporal smoothness of token decoding, we also train a GRU-based predictor on sequence-labeled data:
+                </p>
+                <p style="text-align:center;">
+                    $$D' = \left\{ \left(h_1^{(k)}, \ldots, h_{N_k}^{(k)}\right), \left(p_1^{(k)}, \ldots, p_{N_k}^{(k)}\right) \right\}_{k=1}^K$$
+                </p>
+                <p>
+                    The GRU achieves superior generalization across datasets (Math500, GSM8K), particularly in the zero-shot regime, and produces smoother, monotonic progress curves.
+                </p>
+
+                <h3>2. Controlling the Thinking Phase</h3>
+                <p>
+                    To evaluate the causal role of TPV in model reasoning, we apply controlled interventions to the hidden state:
+                </p>
+                <p style="text-align:center;">
+                    $$h^\alpha = h + \alpha \theta \quad \Rightarrow \quad \theta^T h^\alpha = \theta^T h + \alpha \|\theta\|^2$$
+                </p>
+                <p>
+                    Interventions are applied downstream of attention layers to localize effects to single decoding steps. By modulating $\alpha$, we can accelerate or decelerate the model’s internal estimate of progress—a procedure we term <em>overclocking</em>.
+                </p>
+
+                <h4>Findings</h4>
+                <ul>
+                    <li>Unintervened outputs often exhibit hesitation and self-repetition.</li>
+                    <li>Intervention with $\alpha > 0$ (overclocking) induces faster convergence without compromising accuracy.</li>
+                    <li>Token efficiency improves dramatically, with overclocked completions using up to 6× fewer tokens than baseline generations.</li>
+                </ul>
+
+                <h4>Conclusion</h4>
+                <p>
+                    These results support the hypothesis that reasoning models encode progress internally via interpretable latent dimensions. Furthermore, these signals are not merely correlative but appear to be causally entangled with token generation, offering new affordances for real-time monitoring and adaptive control of model cognition.
+                </p>
+            </div>
+        </div>
+    </section>
             
             <!-- Citation -->
             <div class="citation-container">
