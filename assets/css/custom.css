@@ -1,5 +1,20 @@
 /* Custom styles for the research paper page */
 
+/* Hero Teaser Image Styles */
+.hero-teaser {
+    text-align: center;
+    margin-top: 2em;
+}
+
+.teaser-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
 /* Video Gallery Styles */
 .video-container {
   margin: 2em 0;
@@ -43,10 +58,18 @@
   border-left: 4px solid #52adc8;
   color: #495057;
   font-style: italic;
+  font-size: 1.1em;
+  line-height: 1.4;
 }
 
 .video-description p {
   margin: 0;
+}
+
+.video-description em {
+  font-style: normal;
+  font-weight: 500;
+  color: #2c3e50;
 }
 
 /* Video element styling to match placeholder dimensions */
@@ -57,6 +80,13 @@
   object-fit: cover;
   background-color: #000;
   margin-bottom: 1em;
+}
+
+/* Remove hover effects on videos */
+.video-item video:hover {
+  transform: none;
+  box-shadow: none;
+  cursor: default;
 }
 
 /* Citation Styles */
@@ -119,8 +149,7 @@
 /* Video Grid Styles */
 .video-grid-section {
   padding: 3em 0;
-  background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
 }
 
 .video-grid-section h2 {
@@ -128,6 +157,24 @@
   margin-bottom: 2em;
   color: #424242;
   font-size: 2.5em;
+}
+
+/* Section Description Styles */
+.section-description {
+  text-align: center;
+  margin: 2em auto 3em auto;
+  max-width: 700px;
+}
+
+.section-description p {
+  font-size: 1.1em;
+  color: #555;
+  line-height: 1.6;
+  background-color: #f8f9fa;
+  padding: 1.5em 2em;
+  border-radius: 8px;
+  border-left: 4px solid #52adc8;
+  margin: 0;
 }
 
 /* Dot Navigation */
@@ -205,7 +252,7 @@
 /* Method Section Styles */
 .method-section {
   padding: 3em 0;
-  background-color: #f8f9fa;
+  background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .method-section h2 {
@@ -268,8 +315,8 @@
 
 /* Abstract Section Styles */
 .abstract-section {
-  background-color: #f8f9fa;
-  padding: 3em 0;
+  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
+  /*padding: 3em 0;*/
 }
 
 .abstract-section h2 {
@@ -281,6 +328,10 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+  .teaser-image {
+    max-height: 300px;
+  }
+  
   .video-placeholder {
     height: 250px;
     font-size: 1em;

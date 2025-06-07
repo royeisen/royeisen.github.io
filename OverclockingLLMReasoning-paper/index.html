@@ -18,6 +18,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- MathJax for LaTeX rendering -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
 </head>
 <body>
 
@@ -31,12 +47,6 @@
                 <a href="#code" class="btn btn--inverse btn--large">GitHub Code</a>
                 
             </p>
-            <div class="video-item">
-                <div class="video-placeholder">
-                    <i class="fas fa-play-circle"></i>
-                    <p>Video Placeholder 1</p>
-                </div>
-            </div>
 
         </div>
     </div>
@@ -52,7 +62,8 @@
     <!-- Reasoning Loading Bar Section -->
     <section class="video-grid-section">
         <div class="wrapper">
-            <h2>Reasoning Loading Bar</h2>
+            <h2>⏳💭 Reasoning Loading Bar</h2>
+            <p>We demonstrate that the underlying mechanism we uncover can be used to create a loading bar-style visualization of the thinking process in LLM reasoning tasks.</p>
             
             <input type="radio" name="loading-bar-dots" id="loading-dot-1" checked>
             <input type="radio" name="loading-bar-dots" id="loading-dot-2">
@@ -66,32 +77,32 @@
             
             <div class="video-grid">
                 <div class="video-item">
-                    <video controls loop muted>
+                    <video autoplay muted data-video-id="loading-1">
                         <source src="../assets/videos/loading_bar_1.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="video-description">
-                        <p><em>Solve 3(x-2)+4=2(x+1)+x</em></p>
+                        <p><em>Solve $3(x-2)+4=2(x+1)+x$.</em></p>
                     </div>
                 </div>
                 
                 <div class="video-item">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play-circle"></i>
-                        <p>Reasoning Loading Bar - Video 2</p>
-                    </div>
+                    <video autoplay muted data-video-id="loading-2">
+                        <source src="../assets/videos/loading_bar_2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                     <div class="video-description">
-                        <p><em>Description for reasoning loading bar video 2</em></p>
+                        <p><em>A train leaves a station at 10:00 AM and travels at a speed of 60 km/h. Another train leaves the same station at 10:30 AM and travels at a speed of 90 km/h. At what time will the second train catch up with the first train?</em></p>
                     </div>
                 </div>
                 
                 <div class="video-item">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play-circle"></i>
-                        <p>Reasoning Loading Bar - Video 3</p>
-                    </div>
+                    <video autoplay muted data-video-id="loading-3">
+                        <source src="../assets/videos/loading_bar_3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                     <div class="video-description">
-                        <p><em>Description for reasoning loading bar video 3</em></p>
+                        <p><em>Simplify $\frac{2 - 2\cos^2(\theta)}{\sin(\theta)}$.</em></p>
                     </div>
                 </div>
             </div>
@@ -101,7 +112,8 @@
     <!-- Overclocking LLMs Section -->
     <section class="video-grid-section">
         <div class="wrapper">
-            <h2>Overclocking LLMs</h2>
+            <h2>🚀🤖 Overclocking LLMs</h2>
+            <p>We present qualitative examples showing how the uncovered mechanism can be leveraged to speed up a reasoning model's thought process.</p>
             
             <input type="radio" name="overclocking-dots" id="overclocking-dot-1" checked>
             <input type="radio" name="overclocking-dots" id="overclocking-dot-2">
@@ -115,32 +127,32 @@
             
             <div class="video-grid">
                 <div class="video-item">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play-circle"></i>
-                        <p>Overclocking LLMs - Video 1</p>
-                    </div>
-                    <div class="video-description">
-                        <p><em>Description for overclocking LLMs video 1</em></p>
-                    </div>
-                </div>
-                
-                <div class="video-item">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play-circle"></i>
-                        <p>Overclocking LLMs - Video 2</p>
-                    </div>
-                    <div class="video-description">
-                        <p><em>Description for overclocking LLMs video 2</em></p>
-                    </div>
-                </div>
-                
-                <div class="video-item">
-                    <video controls loop muted>
-                        <source src="../assets/videos/Overclocking_3.mp4" type="video/mp4">
+                    <video autoplay muted data-video-id="overclocking-1">
+                        <source src="../assets/videos/overclocking_1.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                     <div class="video-description">
-                        <p><em>Solve the system of eqautions: X + Y = 12, 3X - Y = 15</em></p>
+                        <p><em>From 6 men and 4 women, how many ways can a 3-person committee be formed with at least one woman?</em></p>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <video autoplay muted data-video-id="overclocking-2">
+                        <source src="../assets/videos/overclocking_2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-description">
+                        <p><em>A family group went fishing. Among them were two fathers and two sons. They caught three whole fish and gave one entire fish to each person. How many of the fishermen had no children of their own?</em></p>
+                    </div>
+                </div>
+                
+                <div class="video-item">
+                    <video autoplay muted data-video-id="overclocking-3">
+                        <source src="../assets/videos/overclocking_3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-description">
+                        <p><em>Find the intersection of the two lines given by the equations: $2x + 3y = 6$ and $x - y = 1$.</em></p>
                     </div>
                 </div>
             </div>
