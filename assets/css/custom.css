@@ -52,6 +52,10 @@
     margin-top: 2em;
 }
 
+.teaser-figure {
+    margin: 0;
+}
+
 .teaser-image {
     max-width: 100%;
     height: auto;
@@ -59,6 +63,15 @@
     margin: 0 auto;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.teaser-caption {
+    margin-top: 1em;
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+    font-size: 0.9em;
+    line-height: 1.4;
 }
 
 /* Video Gallery Styles */
